@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 - Студент: [Andrey Borzilo](https://up.htmlacademy.ru/javascript/22/user/702855).
-- Наставник: `Андрей Карякин`.
+- Наставник: [`Андрей Карякин`](https://htmlacademy.ru/profile/id133011).
 
 ---
 
