@@ -28,9 +28,18 @@ getLengthString(commentString, COMMENT_LENGTH);
 
 const SIMILAR_ARRAY_COUNT = 26
 
-let commentId = 0;
 
-const descriptionList = [
+const LIKES_MIN_LENGTH = 15;
+const LIKES_MAX_LENGTH = 100;
+
+const COMMENTS_MIN_LENGTH = 1;
+const COMMENTS_MAX_LENGTH = 3;
+
+const COMMENTS_NAMES = ['Мирон','Юлия','Никита','Ксения','Роман','Марьям'];
+
+const AVATAR_IDS = [2,4,1,6,3,5];
+
+const descriptionLists = [
   'Виды на..',
   'Хотел бы я сюда еще вернуться',
   'Полет нормальный',
@@ -44,13 +53,7 @@ const descriptionList = [
   'Невероятно, что тут еще добавить',
   'Правила третей, во всей красе'];
 
-const LIKES_MIN_LENGTH = 15;
-const LIKES_MAX_LENGTH = 100;
-
-const COMMENTS_MIN_LENGTH = 1;
-const COMMENTS_MAX_LENGTH = 3;
-
-const commentsList = [
+const commentsLists = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -59,10 +62,10 @@ const commentsList = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const COMMENTS_COUNTER = () => getRandomInteger(0,1) - 1;
 
-const COMMENTS_NAME = ['Мирон','Юлия','Никита','Ксения','Роман','Марьям'];
-const AVATAR_ID = [2,4,1,6,3,5];
+const getCommentCounter = () => getRandomInteger(0,2) - 1;
+
+let commentId = 0;
 
 const getCommentId = () => {
   return commentId++;
@@ -73,15 +76,19 @@ const getPhotoUrl = (i) => {
 }
 
 const getAvatarUrl = (i) => {
-  return `avatar-${AVATAR_ID[i]}.svg`;
+  if (AVATAR_IDS.length > + COMMENTS_NAMES.length) {
+    throw new Error('количество id в массиве ограничено');
+  }
+
+  return `avatar-${AVATAR_IDS[i]}.svg`;
 }
 
 let getRandomGuest = (elem) => {
   return getRandomInteger(0, elem.length - 1);
 };
 
-const commentsFilter = (commentsList) => {
-  const commentsFilterResult = commentsList.sort(COMMENTS_COUNTER).slice(0, getRandomInteger(1,2))
+const getCommentsFilter = (commentsLists) => {
+  const commentsFilterResult = commentsLists.sort(getCommentCounter).slice(0, getRandomInteger(1,2))
   return commentsFilterResult.join(' ');
 }
 
@@ -90,39 +97,39 @@ const getRandomArrayElem = (elem) => {
 }
 
 const getComment = () => {
-  const guestData = getRandomGuest(COMMENTS_NAME)
+  const guestData = getRandomGuest(COMMENTS_NAMES)
   return {
     id: getCommentId(),
     avatar: getAvatarUrl(guestData),
-    message: commentsFilter(commentsList),
-    name: COMMENTS_NAME[guestData],
+    message: getCommentsFilter(commentsLists),
+    name: COMMENTS_NAMES[guestData],
   }
 }
 
 const getComments = (n) => {
-  const commentsArr = [];
+  const comments = [];
 
   for(let i = 0; i < n; i++) {
-    commentsArr.push(getComment());
+    comments.push(getComment());
   }
 
-  return commentsArr;
+  return comments;
 }
 
-const getTemplateComments = (templateCommentsCounter) => {
+const getPhotosData = (photosCounter) => {
 
-  const templateCommets = []
+  const photos = [];
 
-  for(let i=1; i < templateCommentsCounter; i++ ) {
-    templateCommets.push({
+  for(let i = 1; i < photosCounter; i++ ) {
+    photos.push({
       id: i,
       url: getPhotoUrl(i),
-      description: getRandomArrayElem(descriptionList),
+      description: getRandomArrayElem(descriptionLists),
       likes: getRandomInteger(LIKES_MIN_LENGTH, LIKES_MAX_LENGTH),
-      comments: [getComments(getRandomInteger(COMMENTS_MIN_LENGTH,COMMENTS_MAX_LENGTH))]});
+      comments: getComments(getRandomInteger(COMMENTS_MIN_LENGTH,COMMENTS_MAX_LENGTH))});
   }
 
-  return templateCommets;
+  return photos;
 }
 
-getTemplateComments(SIMILAR_ARRAY_COUNT);
+getPhotosData(SIMILAR_ARRAY_COUNT);
