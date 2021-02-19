@@ -133,5 +133,3 @@ const getPhotosData = (photosCounter) => {
 }
 
 getPhotosData(SIMILAR_ARRAY_COUNT);
-
-console.log(getPhotosData(SIMILAR_ARRAY_COUNT));
