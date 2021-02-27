@@ -1,12 +1,35 @@
-import {COMMENTS_NAMES,AVATAR_IDS,descriptionLists,commentsLists} from './data-arrays.js';
-
-
 const LIKES_MIN_LENGTH = 15;
 const LIKES_MAX_LENGTH = 100;
 
 const COMMENTS_MIN_LENGTH = 1;
 const COMMENTS_MAX_LENGTH = 3;
 
+const COMMENTS_NAMES = ['Мирон','Юлия','Никита','Ксения','Роман','Марьям'];
+
+const AVATAR_IDS = [2,4,1,6,3,5];
+
+const DESCRIPTION_LISTS = [
+  'Виды на..',
+  'Хотел бы я сюда еще вернуться',
+  'Полет нормальный',
+  'Ну как то так',
+  'Как вам такой момент ?',
+  'Только не говорите, что горизонт завален',
+  'Ммм..',
+  'Что скажете ?',
+  'Как сейчас помню те эмоции',
+  'Отдыхаемс =)',
+  'Невероятно, что тут еще добавить',
+  'Правила третей, во всей красе'];
+
+const COMMENT_LISTS = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
+];
 
 
 let commentId = 0;
@@ -26,7 +49,6 @@ const getRandomInteger = (min, max) => {
 };
 
 // Функция для проверки максимальной длины строки.
-const getLengthString = (checkedString, maxLength) => checkedString.length < maxLength;
 
 const getCommentCounter = () => getRandomInteger(0,2) - 1;
 
@@ -72,7 +94,7 @@ const getComment = () => {
   return {
     id: getCommentId(),
     avatar: getAvatarUrl(guestData),
-    message:  getRandomElements(commentsLists, 2).join(' '),
+    message:  getRandomElements(COMMENT_LISTS, 2).join(' '),
     name: COMMENTS_NAMES[guestData],
   }
 }
@@ -95,12 +117,16 @@ const getPhotosData = (photosCounter) => {
     photos.push({
       id: i,
       url: getPhotoUrl(i),
-      description: getRandomArrayElem(descriptionLists),
+      description: getRandomArrayElem(DESCRIPTION_LISTS),
       likes: getRandomInteger(LIKES_MIN_LENGTH, LIKES_MAX_LENGTH),
-      comments: getComments(getRandomInteger(COMMENTS_MIN_LENGTH,COMMENTS_MAX_LENGTH))});
+      comments: getComments(getRandomInteger(COMMENTS_MIN_LENGTH,COMMENTS_MAX_LENGTH)),
+    })
   }
 
   return photos;
 }
+
+const getLengthString = (checkedString, maxLength) => checkedString.length < maxLength;
+
 
 export {getLengthString,getPhotosData};
